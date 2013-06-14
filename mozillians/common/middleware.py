@@ -25,7 +25,8 @@ class RegisterMiddleware(object):
         allow_urls = [r'^/[\w-]+{0}'.format(reverse('logout')),
                       r'^/[\w-]+{0}'.format(reverse('browserid_logout')),
                       r'^/[\w-]+{0}'.format(reverse('register')),
-                      r'^/csp/',]
+                      r'^/[\w-]+/jsi18n/']
+
         if settings.DEBUG:
             allow_urls.append(settings.MEDIA_URL)
 
