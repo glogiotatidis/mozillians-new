@@ -10,11 +10,11 @@ from pytz import common_timezones
 from tower import ugettext as _, ugettext_lazy as _lazy
 
 from mozillians.groups.models import Group, Skill, Language
+from mozillians.phonebook.models import Invite
 from mozillians.phonebook.widgets import MonthYearWidget
 from mozillians.users.helpers import validate_username
 from mozillians.users.models import User, UserProfile
 
-from models import Invite
 
 PAGINATION_LIMIT = 20
 PAGINATION_LIMIT_LARGE = 50

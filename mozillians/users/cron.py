@@ -1,15 +1,16 @@
+from django.conf import settings
+
 import commonware.log
 import cronjobs
 import pyes.exceptions
 
 from celery.task.sets import TaskSet
 from celeryutils import chunked
-from django.conf import settings
-
 from elasticutils.contrib.django import get_es
 
-from tasks import index_objects
-from models import PUBLIC, UserProfile
+from mozillians.users.tasks import index_objects
+from mozillians.users.models import PUBLIC, UserProfile
+
 
 log = commonware.log.getLogger('m.cron')
 

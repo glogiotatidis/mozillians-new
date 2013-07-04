@@ -10,9 +10,8 @@ from pyquery import PyQuery as pq
 from mozillians.common import browserid_mock
 from mozillians.common.tests.init import ESTestCase, user
 from mozillians.groups.models import Group
-
-from ..helpers import calculate_username, validate_username
-from ..models import UserProfile, UsernameBlacklist
+from mozillians.users.helpers import calculate_username, validate_username
+from mozillians.users.models import UserProfile, UsernameBlacklist
 
 
 Group.objects.get_or_create(name='staff', system=True)

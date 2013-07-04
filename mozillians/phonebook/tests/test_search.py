@@ -6,10 +6,9 @@ from nose.tools import eq_
 from pyquery import PyQuery as pq
 
 from mozillians.common.tests.init import ESTestCase
-from mozillians.users.models import MOZILLIANS, PUBLIC, S, UserProfile
 from mozillians.groups.models import Group
-
-from ..tests import user, create_client
+from mozillians.phonebook.tests import user, create_client
+from mozillians.users.models import MOZILLIANS, PUBLIC, S, UserProfile
 
 
 class TestSearch(ESTestCase):

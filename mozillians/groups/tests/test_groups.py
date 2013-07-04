@@ -10,10 +10,10 @@ from pyquery import PyQuery as pq
 
 import mozillians.common.tests.init
 
-from ..cron import assign_autocomplete_to_groups
-from ..helpers import stringify_groups
-from ..models import AUTO_COMPLETE_COUNT, Group, GroupAlias
-from ..utils import merge_groups
+from mozillians.groups.cron import assign_autocomplete_to_groups
+from mozillians.groups.helpers import stringify_groups
+from mozillians.groups.models import AUTO_COMPLETE_COUNT, Group, GroupAlias
+from mozillians.groups.utils import merge_groups
 
 
 class GroupTest(mozillians.common.tests.init.ESTestCase):

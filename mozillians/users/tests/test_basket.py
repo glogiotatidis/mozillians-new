@@ -1,9 +1,9 @@
 from django.conf import settings
+
 from funfactory.urlresolvers import reverse
+from mock import patch
 
 from mozillians.common.tests.init import ESTestCase
-
-from mock import patch
 
 
 class BasketTests(ESTestCase):
