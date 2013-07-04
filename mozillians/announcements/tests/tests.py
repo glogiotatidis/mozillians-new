@@ -3,9 +3,9 @@ from datetime import datetime
 from mock import patch
 from nose.tools import eq_, ok_
 
+from mozillians.announcements.helpers import latest_announcement
+from mozillians.announcements.models import Announcement
 from mozillians.common.tests.init import ESTestCase
-from ..helpers import latest_announcement
-from ..models import Announcement
 
 
 class AnnouncementsTests(ESTestCase):
@@ -23,7 +23,7 @@ class AnnouncementsTests(ESTestCase):
             publish_from=datetime(2013, 2, 21),
             publish_until=datetime(2013, 2, 23))
 
-    @patch('announcements.models.datetime')
+    @patch('mozillians.announcements.models.datetime')
     def test_manager_published(self, mock_obj):
         """Test published() of Announcement Manager."""
         mock_obj.now.return_value = datetime(2013, 2, 10)
@@ -41,10 +41,9 @@ class AnnouncementsTests(ESTestCase):
         mock_obj.now.return_value = datetime(2013, 2, 24)
         eq_(Announcement.objects.published().count(), 0)
 
-    @patch('announcements.models.datetime')
+    @patch('mozillians.announcements.models.datetime')
     def test_manager_unpublished(self, mock_obj):
         """Test unpublished() of Announcement Manager."""
-
         mock_obj.now.return_value = datetime(2013, 2, 10)
         eq_(Announcement.objects.unpublished().count(), 3)
 
@@ -60,7 +59,7 @@ class AnnouncementsTests(ESTestCase):
         mock_obj.now.return_value = datetime(2013, 2, 24)
         eq_(Announcement.objects.unpublished().count(), 3)
 
-    @patch('announcements.models.datetime')
+    @patch('mozillians.announcements.models.datetime')
     def test_published(self, mock_obj):
         """Test published model property."""
 
@@ -69,7 +68,7 @@ class AnnouncementsTests(ESTestCase):
         ok_(self.second.published)
         ok_(not self.third.published)
 
-    @patch('announcements.models.datetime')
+    @patch('mozillians.announcements.models.datetime')
     def test_announcement_helper(self, mock_obj):
         """Test latest announcement helper."""
 

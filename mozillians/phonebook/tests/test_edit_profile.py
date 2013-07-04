@@ -12,7 +12,8 @@ from mozillians.common.tests.init import ESTestCase
 ASSERTION = 'asldkfjasldfka'
 
 
-@override_settings(AUTHENTICATION_BACKENDS=['common.backends.TestBackend'])
+@override_settings(
+    AUTHENTICATION_BACKENDS=['mozillians.common.backends.TestBackend'])
 class EditProfileTests(ESTestCase):
 
     def test_geographic_fields_increasing(self):
