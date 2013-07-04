@@ -9,8 +9,8 @@ from funfactory.urlresolvers import set_url_prefix, reverse
 from nose.tools import eq_
 from pyquery import PyQuery as pq
 
-from mozillians.users.models import MOZILLIANS
 from mozillians.common.tests.init import ESTestCase, user
+from mozillians.users.models import MOZILLIANS
 
 
 class TestDeleteUser(ESTestCase):

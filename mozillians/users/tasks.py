@@ -1,12 +1,13 @@
 from datetime import datetime, timedelta
 
+from django.core.mail import send_mail
+from django.conf import settings
+from django.contrib.auth.models import User
+
 import basket
 import requests
 import pyes
 from basket.base import request
-from django.core.mail import send_mail
-from django.conf import settings
-from django.contrib.auth.models import User
 from celery.task import task
 from celery.exceptions import MaxRetriesExceededError
 from elasticutils.contrib.django import get_es

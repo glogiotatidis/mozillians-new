@@ -8,6 +8,7 @@ from nose.tools import eq_
 
 from mozillians.common.tests.init import ESTestCase
 
+
 ASSERTION = 'asldkfjasldfka'
 
 

@@ -10,8 +10,8 @@ from product_details import product_details
 from mozillians.api.models import APIApp
 from mozillians.common.tests.init import ESTestCase, user
 from mozillians.groups.models import Group, Language, Skill
+from mozillians.users.cron import index_all_profiles
 
-from ..cron import index_all_profiles
 
 COUNTRIES = product_details.get_regions('en-US')
 

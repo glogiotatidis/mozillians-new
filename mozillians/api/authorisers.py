@@ -1,7 +1,7 @@
 from django_statsd.clients import statsd
 from tastypie.authorization import ReadOnlyAuthorization
 
-from models import APIApp
+from mozillians.api.models import APIApp
 
 
 class MozillaOfficialAuthorization(ReadOnlyAuthorization):
