@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.test.utils import override_settings
 
-from funfactory.urlresolvers import reverse
 from mock import patch
 from nose.tools import eq_, nottest
 from product_details import product_details
