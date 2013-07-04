@@ -16,44 +16,47 @@ from mozillians.users.models import MOZILLIANS, PUBLIC, UserProfile
 class TestCase(test_utils.TestCase):
     """Tests for common package."""
 
-    @classmethod
-    def setUpClass(cls):
-        super(TestCase, cls).setUpClass()
-        cls._AUTHENTICATION_BACKENDS = settings.AUTHENTICATION_BACKENDS
-        settings.AUTHENTICATION_BACKENDS = ['common.backends.TestBackend']
+    def setUp(self):
+        # TODO: can this be more elegant?
+        self._AUTHENTICATION_BACKENDS = settings.AUTHENTICATION_BACKENDS
+        settings.AUTHENTICATION_BACKENDS = [
+            'mozillians.common.backends.TestBackend']
+        settings.ES_INDEXES = {'default': 'mozillians-test',
+                               'public': 'mozillians-public-test'}
+        settings.ES_DISABLED = True
+        settings.ES_TIMEOUT = 60
+
 
         # Create a Mozillian
-        cls.mozillian = User.objects.create(
+        self.mozillian = User.objects.create(
                 email='u000001@mozillians.org', username='7f3a67u000001')
-        profile = cls.mozillian.get_profile()
+        profile = self.mozillian.get_profile()
         profile.is_vouched = True
         profile.full_name='Amandeep McIlrath'
         profile.save()
 
         # Create another Mozillian
-        cls.mozillian2 = User.objects.create(
+        self.mozillian2 = User.objects.create(
                 email='u000002@mozillians.org', username='7f3a67u000002')
-        profile = cls.mozillian2.get_profile()
+        profile = self.mozillian2.get_profile()
         profile.is_vouched = True
         profile.full_name='Amando Brown'
         profile.privacy_full_name = PUBLIC
         profile.save()
 
         # Create a non-vouched account
-        cls.pending = User.objects.create(
+        self.pending = User.objects.create(
                 email='pending@mozillians.org', username='pending')
-        pending_profile = cls.pending.get_profile()
+        pending_profile = self.pending.get_profile()
         pending_profile.full_name='Amanda Younger'
         pending_profile.privacy_full_name = PUBLIC
         pending_profile.save()
 
         # Create an incomplete account
-        cls.incomplete = (
+        self.incomplete = (
             User.objects.create(email='incomplete@mozillians.org',
                                 username='incomplete'))
 
-    def setUp(self):
-        # TODO: can this be more elegant?
         self.client.get('/')
         self.mozillian_client = test.Client()
         self.mozillian_client.login(email=self.mozillian.email)
@@ -68,10 +71,10 @@ class TestCase(test_utils.TestCase):
         for field in UserProfile._privacy_fields:
             self.data_privacy_fields['privacy_%s' % field] = MOZILLIANS
 
-    @classmethod
-    def tearDownClass(cls):
-        super(TestCase, cls).tearDownClass()
-        settings.AUTHENTICATION_BACKENDS = cls._AUTHENTICATION_BACKENDS
+    def tearDown(self):
+        super(TestCase, self).tearDownClass()
+        if getattr(self, '_AUTHENTICATION_BACKENDS', None):
+            settings.AUTHENTICATION_BACKENDS = self._AUTHENTICATION_BACKENDS
         User.objects.all().delete()
 
 

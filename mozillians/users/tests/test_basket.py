@@ -10,7 +10,7 @@ class BasketTests(ESTestCase):
     """Basket Integration Tests."""
     fake_assertion = 'mrfusionsomereallylongstring'
 
-    @patch('users.tasks.basket.subscribe')
+    @patch('mozillians.users.tasks.basket.subscribe')
     def test_basket_call_on_vouch(self, mock_obj):
         """Test basket subscribe call on vouch."""
         mock_obj.return_value = {'created': True,
@@ -21,7 +21,7 @@ class BasketTests(ESTestCase):
                                     settings.BASKET_NEWSLETTER,
                                     trigger_welcome='N')
 
-    @patch('users.tasks.request')
+    @patch('mozillians.users.tasks.request')
     def test_basket_call_on_edit(self, mock_obj):
         data = self.data_privacy_fields.copy()
         data.update({'full_name': 'Foobar', 'country': 'gr'})
@@ -34,7 +34,7 @@ class BasketTests(ESTestCase):
                                     token=userprofile.basket_token,
                                     data={'country': 'gr'})
 
-    @patch('users.tasks.basket.unsubscribe')
+    @patch('mozillians.users.tasks.basket.unsubscribe')
     def test_remove_from_basket_on_delete(self, mock_obj):
         """Test remove from basket on delete."""
         mock_obj.return_value = {'status': 'ok'}

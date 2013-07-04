@@ -375,7 +375,7 @@ class UserProfile(UserProfilePrivacyModel, SearchMixin):
                          fullname__prefix=3, fullname__fuzzy=2,
                          bio__text=2).query(or_=q))
 
-        s = s.order_by('_score', 'name')
+        s = s.order_by('_score')
 
         if not include_non_vouched:
             s = s.filter(is_vouched=True)

@@ -1,7 +1,9 @@
+from urlparse import urljoin
+
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.test.utils import override_settings
 
-from funfactory.urlresolvers import reverse
 from mock import patch
 from nose.tools import eq_, nottest
 from product_details import product_details
@@ -173,6 +175,7 @@ class RegistrationTest(ESTestCase):
                      optin=True)
             with browserid_mock.mock_browserid(email):
                 r = self.client.post(reverse('register'), d)
+                print r.content
 
             eq_(r.status_code, 200,
                 'This form should fail for "%s", and say so.' % name)
@@ -189,8 +192,9 @@ class RegistrationTest(ESTestCase):
         data = self.data_privacy_fields.copy()
         data.update({'username': 'foobar', 'full_name': 'Tofu Matt',
                       'country': 'pl'})
-        response = self.pending_client.post(reverse('profile.edit'),
-                                            data, follow=True)
+        response = self.pending_client.post(
+            urljoin('/en-US', reverse('profile.edit')),
+            data, follow=True)
         assert 'You changed your username;' in response.content
 
     def test_repeat_username(self):
@@ -247,13 +251,13 @@ class TestThingsForPeople(ESTestCase):
 
     def test_invitelink(self):
         url = reverse('home')
-        r = self.client.get(url)
+        r = self.client.get(url, follow=True)
         doc = pq(r.content)
         assert not doc('a#invite')
-        r = self.pending_client.get(url)
+        r = self.pending_client.get(url, follow=True)
         doc = pq(r.content)
         assert not doc('a#invite'), "Unvouched can't invite."
-        r = self.mozillian_client.get(url)
+        r = self.mozillian_client.get(url, follow=True)
         doc = pq(r.content)
         assert doc('a#invite')
 
@@ -271,16 +275,16 @@ class TestThingsForPeople(ESTestCase):
     def test_vouchlink(self):
         """No vouch link when PENDING looks at PENDING."""
         url = reverse('profile', args=['pending'])
-        r = self.mozillian_client.get(url)
+        r = self.mozillian_client.get(url, follow=True)
         doc = pq(r.content)
         assert doc('#vouch-form button')
-        r = self.pending_client.get(url)
+        r = self.pending_client.get(url, follow=True)
         doc = pq(r.content)
         errmsg = 'Self vouching... silliness.'
         assert not doc('#vouch-form button'), errmsg
         assert 'Vouch for me' not in r.content, errmsg
 
-    @patch('users.admin.index_all_profiles')
+    @patch('mozillians.users.admin.index_all_profiles')
     def test_es_index_admin_view(self, mock_obj):
         """Test that admin:user_index_profiles work fires a re-index."""
         self.mozillian.is_superuser = True
@@ -462,6 +466,7 @@ class UsernameRedirectionMiddlewareTests(ESTestCase):
 class SearchTests(ESTestCase):
 
     def setUp(self):
+        super(SearchTests, self).setUp()
         self.data = {'country': 'us',
                      'region': 'California',
                      'city': 'Mountain View',

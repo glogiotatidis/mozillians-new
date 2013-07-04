@@ -15,10 +15,13 @@ class TestBackend(object):
     def authenticate(self, email=None, username=None, password=None):
         if not email:
             email = username
+        f = None
         try:
-            return User.objects.get(email=email)
+            f = User.objects.get(email=email)
         except User.DoesNotExist:
             pass
+
+        return f
 
     def get_user(self, user_id):
         try:

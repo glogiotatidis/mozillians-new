@@ -78,6 +78,7 @@ class GroupTest(mozillians.common.tests.init.ESTestCase):
         data = self.data_privacy_fields.copy()
         data.update(dict(full_name='tofumatt', country='pl',
                           groups='Awesome,foo,Bar'))
+
         self.mozillian_client.post(reverse('profile.edit'), data, follow=True)
         eq_(3, profile.groups.count(), 'Three groups should be saved.')
 

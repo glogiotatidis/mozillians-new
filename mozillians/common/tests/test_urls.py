@@ -3,7 +3,7 @@ from django.conf.urls.defaults import patterns, url
 from django.http import HttpResponse
 from mozillians.common.decorators import allow_public, allow_unvouched
 
-from urls import urlpatterns
+from mozillians.urls import urlpatterns
 
 
 def vouched(request):

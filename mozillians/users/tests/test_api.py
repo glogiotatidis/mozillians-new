@@ -21,6 +21,7 @@ class APITests(ESTestCase):
 
     def setUp(self):
         """Setup API Testing."""
+        super(APITests, self).setUp()
         # create an APP
         self.auto_user = user()
         up = self.auto_user.userprofile

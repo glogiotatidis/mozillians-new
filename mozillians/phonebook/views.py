@@ -122,6 +122,7 @@ def edit_profile(request):
             user_form.save()
             profile_form.save()
 
+
             # Notify the user that their old profile URL won't work.
             if user.username != old_username:
                 messages.info(request, _(u'You changed your username; please '
