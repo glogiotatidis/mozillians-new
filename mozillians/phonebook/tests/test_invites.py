@@ -1,6 +1,6 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core import mail
-from django.conf import settings
 
 from funfactory.urlresolvers import reverse
 from nose.tools import eq_
@@ -8,8 +8,7 @@ from pyquery import PyQuery as pq
 
 import mozillians.common.tests.init
 from mozillians.common.browserid_mock import mock_browserid
-
-from ..models import Invite
+from mozillians.phonebook.models import Invite
 
 
 class InviteFlowTest(mozillians.common.tests.init.ESTestCase):

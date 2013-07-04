@@ -7,8 +7,8 @@ from nose.tools import eq_
 
 import mozillians.common.tests.init
 
-from ..cron import assign_autocomplete_to_groups
-from ..models import AUTO_COMPLETE_COUNT, Skill
+from mozillians.groups.cron import assign_autocomplete_to_groups
+from mozillians.groups.models import AUTO_COMPLETE_COUNT, Skill
 
 
 class SkillsTest(mozillians.common.tests.init.ESTestCase):
