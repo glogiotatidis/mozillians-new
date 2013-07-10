@@ -26,7 +26,7 @@
         <ul class="group-list">
           {% for group in group_slice %}
             <li class="group-item">
-              <a href="{{ url('group', group.url) }}" class="group-name btn">
+              <a href="{{ url('groups:show', group.url) }}" class="group-name btn">
                 {{ group.name|truncate(20, True) }} &mdash;
                 <i class="icon-user-md"></i>
                 {{ group.num_members }}

@@ -185,7 +185,7 @@
                          ui-corner-all p-category category">
                 {% if (request.user.is_authenticated() and
                        request.user.get_profile().is_vouched) %}
-                  <a href="{{ url('group', group.url) }}">
+                  <a href="{{ url('groups:show', group.url) }}">
                     {{ group.name }}
                   </a>
                 {% else %}
