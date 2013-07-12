@@ -13,9 +13,9 @@ class RegisterMiddleware(object):
     def process_request(self, request):
         user = request.user
         path = request.path
-        allow_urls = [r'^/[\w-]+{0}'.format(reverse('logout')),
+        allow_urls = [r'^/[\w-]+{0}'.format(reverse('users:logout')),
                       r'^/[\w-]+{0}'.format(reverse('browserid_logout')),
-                      r'^/[\w-]+{0}'.format(reverse('register')),
+                      r'^/[\w-]+{0}'.format(reverse('users:register')),
                       r'^/[\w-]+/jsi18n/']
 
         if settings.DEBUG:
@@ -25,4 +25,4 @@ class RegisterMiddleware(object):
             and not filter(lambda url: re.match(url, path), allow_urls)):
             messages.warning(request, _('Please complete registration '
                                         'before proceeding.'))
-            return redirect('register')
+            return redirect('users:register')

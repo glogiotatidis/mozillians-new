@@ -51,7 +51,7 @@ class RegistrationTest(ESTestCase):
                  full_name='Akaaaaaaash Desaaaaaaai',
                  optin=True)
         with browserid_mock.mock_browserid('mrfusion@mozilla.com'):
-            r = self.client.post(reverse('register'), d, follow=True)
+            r = self.client.post(reverse('users:register'), d, follow=True)
 
         doc = pq(r.content)
 
@@ -75,7 +75,7 @@ class RegistrationTest(ESTestCase):
                  full_name='Akaaaaaaash Desaaaaaaai',
                  optin=True)
         with browserid_mock.mock_browserid(email):
-            self.client.post(reverse('register'), d, follow=True)
+            self.client.post(reverse('users:register'), d, follow=True)
 
         assert User.objects.filter(email=d['email'])
 
@@ -95,7 +95,7 @@ class RegistrationTest(ESTestCase):
                  country='pl',
                  optin=True)
         with browserid_mock.mock_browserid(email):
-            r = self.client.post(reverse('register'), d)
+            r = self.client.post(reverse('users:register'), d)
         eq_(r.status_code, 302, "Problems if we didn't redirect...")
         u = User.objects.filter(email=d['email'])[0]
         eq_(u.username, 'mrfusion', "Username didn't get set.")
@@ -122,7 +122,7 @@ class RegistrationTest(ESTestCase):
                  country='pl',
                  optin=True)
         with browserid_mock.mock_browserid(email):
-            r = self.client.post(reverse('register'), d)
+            r = self.client.post(reverse('users:register'), d)
         eq_(r.status_code, 302, (
                 'Registration flow should finish with a redirect.'))
         u = User.objects.get(email=d['email'])
@@ -145,7 +145,7 @@ class RegistrationTest(ESTestCase):
                  full_name='Akaaaaaaash Desaaaaaaai',
                  optin=True)
         with browserid_mock.mock_browserid(email):
-            r = self.client.post(reverse('register'), d)
+            r = self.client.post(reverse('users:register'), d)
         eq_(r.status_code, 302, (
                 'Registration flow should fail; username is bad.'))
         assert not User.objects.filter(email=d['email']), (
@@ -172,7 +172,7 @@ class RegistrationTest(ESTestCase):
                      full_name='Akaaaaaaash Desaaaaaaai',
                      optin=True)
             with browserid_mock.mock_browserid(email):
-                r = self.client.post(reverse('register'), d)
+                r = self.client.post(reverse('users:register'), d)
 
             eq_(r.status_code, 200,
                 'This form should fail for "%s", and say so.' % name)
@@ -208,7 +208,7 @@ class RegistrationTest(ESTestCase):
             self.client.post(reverse('browserid_login'), d, follow=True)
 
         with browserid_mock.mock_browserid(email1):
-            self.client.post(reverse('register'), register, follow=True)
+            self.client.post(reverse('users:register'), register, follow=True)
 
         self.client.logout()
         # Create a different user
@@ -218,7 +218,7 @@ class RegistrationTest(ESTestCase):
             self.client.post(reverse('browserid_login'), d, follow=True)
 
         with browserid_mock.mock_browserid(email2):
-            r = self.client.post(reverse('register'), register, follow=True)
+            r = self.client.post(reverse('users:register'), register, follow=True)
 
         # Make sure we can't use the same username twice
         assert r.context['user_form'].errors, "Form should throw errors."
@@ -264,7 +264,7 @@ class TestThingsForPeople(ESTestCase):
                         'Anonymous users can access the homepage to '
                         'begin registration flow')
 
-        r = self.mozillian_client.get(reverse('register'))
+        r = self.mozillian_client.get(reverse('users:register'))
         eq_(302, r.status_code,
             'Authenticated users are redirected from registration.')
 
@@ -363,7 +363,7 @@ class TestUser(ESTestCase):
 
         with browserid_mock.mock_browserid(email):
             self.client.post(reverse('browserid_login'), d, follow=True)
-            self.client.post(reverse('register'), register, follow=True)
+            self.client.post(reverse('users:register'), register, follow=True)
 
         u = User.objects.filter(email=email)[0]
         p = u.get_profile()
@@ -398,7 +398,7 @@ class TestMigrateRegistration(ESTestCase):
 
             # Now let's register
             with browserid_mock.mock_browserid(self.email):
-                r = self.client.post(reverse('register'), info, follow=True)
+                r = self.client.post(reverse('users:register'), info, follow=True)
 
             eq_(r.status_code, 200)
 

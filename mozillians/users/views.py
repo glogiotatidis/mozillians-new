@@ -3,7 +3,6 @@ import datetime
 from django.contrib import auth, messages
 from django.shortcuts import redirect, render
 
-import commonware.log
 from funfactory.urlresolvers import reverse
 from tower import ugettext as _
 
@@ -12,7 +11,6 @@ from mozillians.phonebook.forms import RegisterForm, UserForm
 from mozillians.phonebook.models import Invite
 
 
-log = commonware.log.getLogger('m.users')
 get_invite = lambda c: Invite.objects.get(code=c, redeemed=None)
 
 
@@ -59,7 +57,7 @@ def register(request):
     return render(request, 'registration/register.html',
                   dict(profile_form=profile_form,
                        user_form=user_form,
-                       edit_form_action=reverse('register'),
+                       edit_form_action=reverse('users:register'),
                        mode='new',
                        profile=user.get_profile(),
                        user=user))
@@ -72,9 +70,6 @@ def _update_invites(request):
             invite = get_invite(code)
             voucher = invite.inviter
         except Invite.DoesNotExist:
-            msg = 'Invite code [%s], does not exist!' % code
-            log.warning(msg)
-            # If there is no invite, lets get out of here.
             return
     else:
         # If there is no invite, lets get out of here.

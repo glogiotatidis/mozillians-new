@@ -83,7 +83,7 @@ class InviteFlowTest(mozillians.common.tests.init.ESTestCase):
                  country='pl',
                  optin=True)
         with mock_browserid(email):
-            self.client.post(reverse('register'), d, follow=True)
+            self.client.post(reverse('users:register'), d, follow=True)
 
         # Return the New Users Profile
         invited_user_profile = User.objects.get(email=email).get_profile()
