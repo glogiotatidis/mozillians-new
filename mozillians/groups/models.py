@@ -22,10 +22,13 @@ class GroupBase(models.Model):
 
     @classmethod
     def search(cls, query, auto_complete_only=True):
-        if query:
-            return cls.objects.filter(name__icontains=query,
-                                      auto_complete=auto_complete_only)
-        return []
+        if not query:
+            return []
+        query = query.lower()
+        results = cls.objects.filter(name__contains=query)
+        if auto_complete_only:
+            results = results.filter(auto_complete=auto_complete_only)
+        return results
 
     def save(self, *args, **kwargs):
         self.name = self.name.lower()
