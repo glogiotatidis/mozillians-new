@@ -47,6 +47,14 @@ def _calculate_photo_filename(instance, filename):
     return os.path.join(settings.USER_AVATAR_DIR, str(uuid.uuid4()) + '.jpg')
 
 
+class PrivacyField(models.PositiveSmallIntegerField):
+    def __init__(self, *args, **kwargs):
+        myargs = {'default': MOZILLIANS,
+                  'choices': PRIVACY_CHOICES}
+        myargs.update(kwargs)
+        return super(PrivacyField, self).__init__(*args, **myargs)
+
+
 class UserProfileValuesQuerySet(ValuesQuerySet):
     """Custom ValuesQuerySet to support privacy.
 
@@ -197,32 +205,19 @@ class UserProfilePrivacyModel(models.Model):
                        'vouched_by': None}
     _privacy_level = None
 
-    privacy_photo = models.PositiveIntegerField(default=MOZILLIANS,
-                                                choices=PRIVACY_CHOICES)
-    privacy_full_name = models.PositiveIntegerField(default=MOZILLIANS,
-                                                    choices=PRIVACY_CHOICES)
-    privacy_ircname = models.PositiveIntegerField(default=MOZILLIANS,
-                                                  choices=PRIVACY_CHOICES)
-    privacy_email = models.PositiveIntegerField(default=MOZILLIANS,
-                                                choices=PRIVACY_CHOICES)
-    privacy_website = models.PositiveIntegerField(default=MOZILLIANS,
-                                                  choices=PRIVACY_CHOICES)
-    privacy_bio = models.PositiveIntegerField(default=MOZILLIANS,
-                                              choices=PRIVACY_CHOICES)
-    privacy_city = models.PositiveIntegerField(default=MOZILLIANS,
-                                               choices=PRIVACY_CHOICES)
-    privacy_region = models.PositiveIntegerField(default=MOZILLIANS,
-                                                 choices=PRIVACY_CHOICES)
-    privacy_country = models.PositiveIntegerField(default=MOZILLIANS,
-                                                  choices=PRIVACY_CHOICES)
-    privacy_groups = models.PositiveIntegerField(default=MOZILLIANS,
-                                                 choices=PRIVACY_CHOICES)
-    privacy_skills = models.PositiveIntegerField(default=MOZILLIANS,
-                                                 choices=PRIVACY_CHOICES)
-    privacy_languages = models.PositiveIntegerField(default=MOZILLIANS,
-                                                    choices=PRIVACY_CHOICES)
-    privacy_vouched_by = models.PositiveIntegerField(default=MOZILLIANS,
-                                                     choices=PRIVACY_CHOICES)
+    privacy_photo = PrivacyField()
+    privacy_full_name = PrivacyField()
+    privacy_ircname = PrivacyField()
+    privacy_email = PrivacyField()
+    privacy_website = PrivacyField()
+    privacy_bio = PrivacyField()
+    privacy_city = PrivacyField()
+    privacy_region = PrivacyField()
+    privacy_country = PrivacyField()
+    privacy_groups = PrivacyField()
+    privacy_skills = PrivacyField()
+    privacy_languages = PrivacyField()
+    privacy_vouched_by = PrivacyField()
 
     class Meta:
         abstract=True
