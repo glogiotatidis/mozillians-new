@@ -2,6 +2,7 @@ import re
 import jinja2
 from jingo import register
 
+
 PARAGRAPH_RE = re.compile(r'(?:\r\n|\r|\n){2,}')
 
 

@@ -23,7 +23,7 @@
       {% if not profile.is_vouched %}
         <div class="alert alert alert-info" id="pending-approval">
           {% if request.user == shown_user %}
-            {% trans profile_url=absolutify(url('profile', user.username)),
+            {% trans profile_url=url('profile', user.username),
                      contribute_url='http://www.mozilla.org/contribute' %}
               <p>
                 Your profile is waiting to be vouched. Send the link below to someone who

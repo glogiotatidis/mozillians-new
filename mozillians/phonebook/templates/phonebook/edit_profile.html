@@ -149,7 +149,7 @@
                   {% elif profile.is_vouched %}
                     {{ _('You are automatically vouched!') }}
                   {% else %}
-                    {% trans profile_url=absolutify(url('profile', user.username)) %}
+                    {% trans profile_url=url('profile', user.username) %}
                       You aren't vouched! Send this link to a mozillian
                       who can vouch for your contributions:
                       <em class="underline" title="Your profile URL">
