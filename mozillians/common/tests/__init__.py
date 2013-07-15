@@ -10,12 +10,16 @@ from nose.tools import make_decorator, ok_
 from test_utils import TestCase as BaseTestCase
 
 
-AUTHENTICATION_BACKENDS =(
+AUTHENTICATION_BACKENDS = (
     'mozillians.common.tests.authentication.DummyAuthenticationBackend',
     )
+ES_INDEXES = {
+    'default': 'mozillians-test',
+    'public': 'mozillians-public-test'
+    }
 
-
-@override_settings(AUTHENTICATION_BACKENDS=AUTHENTICATION_BACKENDS)
+@override_settings(AUTHENTICATION_BACKENDS=AUTHENTICATION_BACKENDS,
+                   ES_INDEXES=ES_INDEXES)
 class TestCase(BaseTestCase):
     @contextmanager
     def login(self, user):

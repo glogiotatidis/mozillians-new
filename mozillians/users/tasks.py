@@ -82,9 +82,8 @@ def update_basket_task(instance_id):
             result = basket.subscribe(instance.user.email,
                                       settings.BASKET_NEWSLETTER,
                                       trigger_welcome='N')
-            instance.basket_token = result['token']
-            instance.save()
-
+            (UserProfile.objects
+             .filter(pk=instance_id).update(basket_token=result['token']))
         request('post', 'custom_update_phonebook',
                 token=instance.basket_token, data=data)
     except (requests.exceptions.RequestException,
