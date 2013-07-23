@@ -78,15 +78,17 @@ def update_basket_task(instance_id):
     if instance.city:
         data['city'] = instance.city
 
+    token = instance.basket_token
     try:
-        if not instance.basket_token:
+        if not token:
             result = basket.subscribe(instance.user.email,
                                       settings.BASKET_NEWSLETTER,
                                       trigger_welcome='N')
+            token = result['token']
             (UserProfile.objects
-             .filter(pk=instance_id).update(basket_token=result['token']))
+             .filter(pk=instance_id).update(basket_token=token))
         request('post', 'custom_update_phonebook',
-                token=instance.basket_token, data=data)
+                token=token, data=data)
     except (requests.exceptions.RequestException,
             basket.BasketException), exception:
         try:
